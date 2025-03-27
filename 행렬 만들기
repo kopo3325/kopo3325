@@ -1,0 +1,13 @@
+m = float(input('행을 입력하세요.'))  
+n = float(input('열을 입력하세요.'))  
+
+if(m > 0 and n > 0) and (m % 1 == 0 and n % 1 == 0):
+  for i in range(int(m)):
+    StartNum = i + 1  
+    EndNum = StartNum + n - 1 
+    
+    for num in range(int(StartNum), int(EndNum + 1)):
+        print(num, end = "")  
+    print()
+else:
+  print('다시 입력')
