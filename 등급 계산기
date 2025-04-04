@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+ void main()
+{
+    float score;
+    printf("점수를 입력하세요: ");
+    scanf("%f", &score);
+    int score_reduce = score / 10;
+     
+    switch(score_reduce) {
+        case 10:
+            printf("A 등급\n");
+            printf("%.2f", score + score * 0.1);
+            break;
+        case 9:
+            printf("A 등급\n");
+            printf("%.2f", score + score * 0.1);
+            break;
+        case 8:
+            printf("B 등급\n");
+            printf("%.2f", score + score * 0.05);
+            break;
+        case 7:
+            printf("C 등급\n");
+            printf("추가 보너스 없음");
+            break;
+        case 6:
+            printf("D 등급\n");
+            printf("추가 보너스 없음");
+            break;
+        default:
+            printf("F 등급\n");
+            printf("추가 보너스 없음");
+            break;    
+    }
+}
