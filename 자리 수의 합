@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+int main() {
+    int k = 0;
+    int sum = 0;
+    
+    printf("숫자를 입력하세요: ");
+    scanf("%d", &k);
+    
+    for (int i = k; i != 0; i = i / 10) {
+        sum = sum + (i % 10);
+    }
+    printf("자리 수의 합: %d", sum);
+    
+    return 0;
+}  
