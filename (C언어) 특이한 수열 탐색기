@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() 
+{
+    int M;
+    int N;
+    
+    printf("시작 정수를 입력하세요.");
+    scanf("%d", &M);
+    printf("끝나는 정수를 입력하세요.");
+    scanf("%d", &N);
+    
+    for (int i = M; i <= N; i++) {
+        char str[10];
+        sprintf(str, "%d", i); // %d를  지정하여 정수를 문자열로 저장
+        
+        if (i % 7 == 0 || strchr(str, '7') != NULL ) { // 7배수거나 7포함되면 
+            continue; //스킵하고 출력해라
+        } else if (i % 5 == 0) { // 5의 배수면
+            printf("%d ", i);
+            break; // 반복문 빠져나와라
+        } else {
+            printf("%d ", i);
+        }
+    }
+    return 0;
+} 
