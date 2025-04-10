@@ -1,0 +1,47 @@
+#include <stdio.h>
+#define True 1
+#define False 0
+
+void main()
+{
+    struct student { 
+    	char *name;
+    	int age;
+    	char *sex;
+    	char *hobby;
+    };
+    
+    struct student students[1000];
+    int count = 0;
+    
+    for (int i = 0; i < 1000 ; i++) {
+        
+        students[i].name = (char *)malloc(50 * sizeof(char));
+        students[i].sex = (char *)malloc(10 * sizeof(char));
+        students[i].hobby = (char *)malloc(50 * sizeof(char));
+        
+        printf("\n이름: ");
+        scanf("%s", students[i].name);
+        
+        printf("나이: ");
+        scanf("%d", &students[i].age);
+        
+        printf("성별: ");
+        scanf("%s", students[i].sex);
+        
+        printf("취미: ");
+        scanf("%s", students[i].hobby);
+        printf("\n");
+        
+        count++;
+        
+        printf("hong/30/M/soccer\n");
+        printf("kim/25/M/music\n");
+        printf("park/20/F/movie\n");
+        
+        for(int j = 0; j < count; j++) {
+            printf("%s/%d/%s/%s\n", students[j].name, students[j].age, students[j].sex, students[j].hobby);
+        }
+    }
+    printf("\n");
+}
