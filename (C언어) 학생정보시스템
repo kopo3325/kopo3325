@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define True 1
+#define MAX_stu 1000
+
+int valid_age() {
+    int age;
+    while (True) {
+        printf("Age: ");
+        if (scanf("%d", &age) != 1) {
+            printf("Please insert a number only.\n");
+            while (getchar() != '\n');  //잘못된 입력 모두 제거
+            continue;
+        }
+        return age;
+    }
+}
+
+int valid_gender(char *gender) {
+    while (True) {
+        printf("Gender: ");
+        scanf("%s", gender);
+        if (gender[0] == 'M' || gender[0] == 'F') {
+            return 1;  // 유효한 성별
+        } else {
+            printf("Please insert only 'M' or 'F'.\n");
+            continue;  //잘못된 입력 시 다시 입력받음
+        }
+    }
+}
+
+void main()
+{
+    struct student { 
+    	char *name;
+    	int age;
+    	char *gender;
+    	char *hobby;
+    };
+    
+    struct student students[MAX_stu];
+    int count = 0;
+    
+   while (True) {
+        
+        students[count].name = (char *)malloc(50 * sizeof(char));
+        students[count].gender = (char *)malloc(10 * sizeof(char));
+        students[count].hobby = (char *)malloc(50 * sizeof(char));
+        
+        printf("\nName: ");
+        scanf("%s", students[count].name);
+        
+        students[count].age = valid_age();
+        
+        valid_gender(students[count].gender);
+        
+        printf("Hobby: ");
+        scanf("%s", students[count].hobby);
+        printf("\n");
+        
+        count++;
+        
+        printf("hong/30/M/soccer\n");
+        printf("kim/25/M/music\n");
+        printf("park/20/F/movie\n");
+        
+        for(int j = 0; j < count; j++) {
+            printf("%s/%d/%s/%s\n", students[j].name, students[j].age, students[j].gender, students[j].hobby);
+        }
+    }
+    printf("\n");
+}
