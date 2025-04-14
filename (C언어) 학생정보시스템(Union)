@@ -1,0 +1,122 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define True 1
+#define MAX_stu 1000
+
+union StuInfo { // make union(it can be used by choosing one)
+    char *hobby;
+    char *etc;
+};
+
+struct student { // student info struct
+    	char *name;
+    	int age;
+    	char *gender;
+    	union StuInfo info;
+    	int isHobby;
+};
+
+void stu_memory(struct student students[], int index) { // function of allocating dynamic memory
+    students[index].name = (char *)malloc(50 * sizeof(char));
+    students[index].gender = (char *)malloc(10 * sizeof(char));
+    students[index].info.hobby = (char *)malloc(50 * sizeof(char));
+}
+
+void stu_union(struct student *stu) { // union function given pointer from struct 
+    char choice; // User has choice
+    while (True) {
+        printf("Choose Hobby (H) or Etc (E).");
+        scanf(" %c", &choice);
+        if (choice == 'H') {
+            printf("Hobby: ");
+            scanf("%s", stu->info.hobby); // save into hobby pointer of union info
+            stu->isHobby = 1; // hobby inserted
+            break;
+        } else if (choice == 'E') {
+            printf("Etc: ");
+            scanf("%s", stu->info.etc); // save into etc pointer of union info
+            stu->isHobby = 0; // etc inserted
+            break;
+        } else {
+            printf("Please insert only 'H' or 'E'.\n");
+        }
+    }   printf("\n");
+}
+
+void stu_sample() { // sample info of 3 students
+    printf("hong / 30 / M / soccer / gloomy\n");
+    printf("kim / 25 / M / music / happy\n");
+    printf("park / 20 / F / movie / sad\n");
+}    
+
+void input_name(char *name) { // Name function 
+    printf("\nName: ");
+    scanf("%s", name);
+}
+
+int valid_age() { // Age function
+    int age;
+    while (True) {
+        printf("Age: ");
+        if (scanf("%d", &age) != 1) { // if not int
+            printf("Please insert a number only.\n"); // error
+            while (getchar() != '\n') {  // remove error
+            continue; // return to while
+            }
+        }
+        return age; // if int -> return age
+    }
+}
+
+int input_gender(char *gender) { // Gender function
+    while (True) {
+        printf("Gender: ");
+        scanf("%s", gender);
+        if (gender[0] == 'M' || gender[0] == 'F') {
+            return 1;  // valid gender
+        } else {
+            printf("Please insert only 'M' or 'F'.\n"); // error
+            continue;  // return to while
+        }
+    }
+}
+
+void input_hobby(char *hobby) { // Hobby function
+    printf("Hobby: ");
+    scanf("%s", hobby);
+    printf("\n");
+}
+
+void input_etc(char *etc) { // Etc function
+    printf("Etc: ");
+    scanf("%s", etc);
+    printf("\n");
+}
+
+void stu_info(struct student students[], int *count) {
+    while (True) {
+        stu_memory(students, *count); // allocate dynamic memory
+        input_name(students[*count].name); // insert Name
+        students[*count].age = valid_age(); // insert Age
+        input_gender(students[*count].gender); // insert Gender
+        stu_union(&students[*count]);
+        
+        (*count)++; // increase count per 1
+        
+        stu_sample();  // print sample
+        
+        for (int j = 0; j < *count; j++) {
+            if (students[j].isHobby) {
+                printf("%s / %d / %s / %s / -\n", students[j].name, students[j].age, students[j].gender, students[j].info.hobby);
+            } else {
+                printf("%s / %d / %s / - / %s\n", students[j].name, students[j].age, students[j].gender, students[j].info.etc);
+            }
+        }
+    }
+}
+
+void main() { // Main function
+    struct student students[MAX_stu]; // call in student info struct
+    int count = 0; // reset count
+    stu_info(students, &count); // call in address value of stu_info function 
+}
