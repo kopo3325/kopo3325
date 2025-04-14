@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define True 1
+#define MAX_stu 1000
+
+struct student { // student info struct
+    	char *name;
+    	int age;
+    	char *gender;
+    	char *hobby;
+};
+
+void stu_memory(struct student students[], int index) { // function of allocating dynamic memory
+    students[index].name = (char *)malloc(50 * sizeof(char));
+    students[index].gender = (char *)malloc(10 * sizeof(char));
+    students[index].hobby = (char *)malloc(50 * sizeof(char));
+}
+
+void stu_sample() { // sample info of 3 students
+    printf("hong / 30 / M / soccer\n");
+    printf("kim / 25 / M / music\n");
+    printf("park / 20 / F / movie\n");
+}    
+
+void input_name(char *name) { // Name function 
+    printf("\nName: ");
+    scanf("%s", name);
+}
+
+int valid_age() { // Age function
+    int age;
+    while (True) {
+        printf("Age: ");
+        if (scanf("%d", &age) != 1) { // if not int
+            printf("Please insert a number only.\n"); // error
+            while (getchar() != '\n') {  // remove error
+            continue; // return to while
+            }
+        }
+        return age; // if int -> return age
+    }
+}
+
+int input_gender(char *gender) { // Gender function
+    while (True) {
+        printf("Gender: ");
+        scanf("%s", gender);
+        if (gender[0] == 'M' || gender[0] == 'F') {
+            return 1;  // valid gender
+        } else {
+            printf("Please insert only 'M' or 'F'.\n"); // error
+            continue;  // return to while
+        }
+    }
+}
+
+void input_hobby(char *hobby) { // Hobby function
+    printf("Hobby: ");
+    scanf("%s", hobby);
+    printf("\n");
+}
+
+void stu_info(struct student students[], int *count) {
+    while (True) { 
+        stu_memory(students, *count); // allocate dynamic memory
+        input_name(students[*count].name); // insert Name
+        students[*count].age = valid_age(); // insert Age
+        input_gender(students[*count].gender); // insert Gender
+        input_hobby(students[*count].hobby); // insert Hobby
+
+        (*count)++; // increase count per 1
+        
+        stu_sample();  // print sample
+        
+        for (int j = 0; j < *count; j++) { // print until count
+            printf("%s / %d / %s / %s\n", students[j].name, students[j].age, students[j].gender, students[j].hobby);
+        }
+    }
+}
+
+void main() { // Main function
+    struct student students[MAX_stu]; // call in student info struct
+    int count = 0; // reset count
+    stu_info(students, &count); // call in address value of stu_info function 
+}
