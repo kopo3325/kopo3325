@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+void main()
+{
+   enum car {SEDAN, SUV, TRUCK, VAN};
+   enum car c;
+   
+   int a;
+   int insert;
+   while(1) {
+       insert = scanf("%d", &a);
+       if (insert != 0 && a > 0 && a < 5 ) {
+           switch (a) {
+                case 1:
+                    c = 0;
+                    break;
+                case 2:
+                    c = 1;
+                    break;
+                case 3:
+                    c = 2;
+                    break;
+                case 4:
+                    c = 3;
+                    break;    
+           }
+      
+            if (c == SEDAN) {
+                printf("입력한 차량은 SEDAN 입니다.\n");
+            } else if (c == SUV) {
+                printf("입력한 차량은 SUV 입니다.\n");
+            } else if (c == TRUCK) {
+                printf("입력한 차량은 TRUCK 입니다.\n");
+            } else if (c == VAN) {
+                printf("입력한 차량은 VAN 입니다.\n");
+            }
+        } else {
+            printf("다시 입력하세요.\n");
+            while(getchar() != '\n');
+        }     
+    }   
+    return 0;  
+}
