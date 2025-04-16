@@ -1,0 +1,142 @@
+#include <stdio.h>
+
+enum Month { JAN = 1, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC };
+enum Week { SUN, MON, TUE, WED, THU, FRI, SAT };
+
+void MonthTitle(int year, int month); // title of calender
+void MonthBody(int year, int month); // days of calender
+int startday(int year, int month);
+int TotalNumberOfDays(int year, int month);
+int NumberOfDaysInMonth(int year, enum Month month);
+int LeapYear(int year);
+void calDday(int year, int month, int day);
+
+const char* MonthName(enum Month month) {
+    const char* names[] = {"", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    return names[month];
+}
+
+const char* WeekdayName(enum Week day) {
+    const char* names[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    return names[day];
+}
+
+#define TODAY_YEAR 2025
+#define TODAY_MONTH 4
+#define TODAY_DAY 16
+
+void inputDate(int* year, int* month) {
+    printf("year : ");
+    scanf("%d", year);
+    printf("month : ");
+    scanf("%d", month);
+}    
+
+void printMonth(int year, int month) {
+    MonthTitle(year, month);
+	MonthBody(year, month);
+}
+
+void MonthTitle(int year, int month) { // title of calender
+	printf("%s %d\n", MonthName((enum Month)month), year);
+    printf("-----------------------------\n");
+    for (int i = SUN; i <= SAT; i++) {
+        printf(" %s", WeekdayName((enum Week)i));
+    }
+    printf("\n");
+}
+
+void MonthBody(int year, int month) { // 매월 첫 날과 요일 찍기
+	int firstday = startday(year, month);
+	int daysinmonth = NumberOfDaysInMonth(year, (enum Month)month);
+
+	for (int i = 0; i < firstday; i++) { // 매월 첫 날 앞에 공백 채우기 
+	    printf("    ");
+	}    
+	for (int j = 1; j <= daysinmonth; j++) {
+	    printf("%4d", j);
+	    if ((j + firstday) % 7 == 0) { // 일주일 지나면 줄바꿈
+	        printf("\n");
+		}
+	}
+	printf("\n");
+}
+
+int startday(int year, int month) { // 해당월의 시작 날이 무슨 요일인지 찍기
+	int firstday1800 = 3; 
+	int totalnumberofdays = TotalNumberOfDays(year, month);
+	return (firstday1800 + totalnumberofdays) % 7;
+}
+
+int TotalNumberOfDays(int year, int month) {
+	int total = 0;
+	for (int i = 1800; i < year; i++) {
+		if (LeapYear(i)) {
+		    total += 366; // 윤달 껴있으면 1년 366일
+		} else { 
+		    total += 365; // 윤달 아니면 1년 365일
+		}    
+	}
+	for (int i = 1; i < month; i++) {
+	    total = total + NumberOfDaysInMonth(year, (enum Month)i);
+	}
+	return total;
+}
+
+int NumberOfDaysInMonth(int year, enum Month month) { // 해당월에 몇일이 있는지
+	if (month == JAN || month == MAR || month == MAY || month == JUL || month == AUG || month == OCT || month == DEC) {
+        return 31;
+	} else if (month == APR || month == JUN || month == SEP || month == NOV) {
+	    return 30;
+	} else if (month == FEB) { // 2월의 경우
+	    if (LeapYear(year)) { // 윤달이면 
+	        return 29;
+		} else { // 윤달 아니면
+		    return 28;
+	    }
+    }
+    return 0;
+}    
+
+int LeapYear(int year) { // 윤달
+	if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+	    return 1;
+	} else {
+	    return 0;
+	}
+}
+
+void calDday(int year, int month, int day) {
+    int Ddays = TotalNumberOfDays(year, month) + day;
+    int todayDays = TotalNumberOfDays(TODAY_YEAR, TODAY_MONTH) + TODAY_DAY;
+    
+    int diff = Ddays - todayDays; // 현재 날짜와의 차이
+
+    if (diff == 0) { 
+        printf("D-DAY!\n");
+    } else if (diff > 0) {
+        printf("D-%d\n", diff);
+    } else {
+        printf("D+%d\n", -diff);
+    }
+}
+
+void inputDdayDate(int* year, int* month, int* day) {
+    printf("\nD-day 계산할 날짜를 입력하세요.\n");
+    printf("년도 (yyyy): ");
+    scanf("%d", year);
+    printf("월 (mm): ");
+    scanf("%d", month);
+    printf("일 (dd): ");
+    scanf("%d", day);
+}
+
+int main() {
+	int year, month, day;
+    inputDate(&year, &month);
+	printMonth(year, month);
+	
+	inputDdayDate(&year, &month, &day);
+	calDday(year, month, day);
+	return 0;
+}	
